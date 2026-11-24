@@ -8,6 +8,7 @@ import {
   n8nController,
   openaiController,
   typebotController,
+  typesafeService,
 } from '@api/server.module';
 import { WAMonitoringService } from '@api/services/monitor.service';
 import { Logger } from '@config/logger.config';
@@ -104,6 +105,8 @@ export class ChatbotController {
     evoaiController.emit(emitData);
 
     flowiseController.emit(emitData);
+
+    typesafeService.emit(emitData);
   }
 
   public processDebounce(

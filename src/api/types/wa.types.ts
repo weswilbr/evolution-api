@@ -30,6 +30,7 @@ export enum Events {
   CALL = 'call',
   TYPEBOT_START = 'typebot.start',
   TYPEBOT_CHANGE_STATUS = 'typebot.change-status',
+  MESSAGES_CLASSIFIED = 'messages.classified',
   LABELS_EDIT = 'labels.edit',
   LABELS_ASSOCIATION = 'labels.association',
   CREDS_UPDATE = 'creds.update',

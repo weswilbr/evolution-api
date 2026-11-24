@@ -34,6 +34,7 @@ import { OpenaiController } from './integrations/chatbot/openai/controllers/open
 import { OpenaiService } from './integrations/chatbot/openai/services/openai.service';
 import { TypebotController } from './integrations/chatbot/typebot/controllers/typebot.controller';
 import { TypebotService } from './integrations/chatbot/typebot/services/typebot.service';
+import { TypesafeService } from './integrations/chatbot/typesafe/services/typesafe.service';
 import { EventManager } from './integrations/event/event.manager';
 import { S3Controller } from './integrations/storage/s3/controllers/s3.controller';
 import { S3Service } from './integrations/storage/s3/services/s3.service';
@@ -137,5 +138,8 @@ export const n8nController = new N8nController(n8nService, prismaRepository, waM
 
 const evoaiService = new EvoaiService(waMonitor, prismaRepository, configService, openaiService);
 export const evoaiController = new EvoaiController(evoaiService, prismaRepository, waMonitor);
+
+// intent classification (TypeSafe)
+export const typesafeService = new TypesafeService(waMonitor, configService);
 
 logger.info('Module - ON');

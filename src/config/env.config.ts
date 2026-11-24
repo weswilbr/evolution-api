@@ -91,6 +91,7 @@ export type EventsRabbitmq = {
   CALL: boolean;
   TYPEBOT_START: boolean;
   TYPEBOT_CHANGE_STATUS: boolean;
+  MESSAGES_CLASSIFIED: boolean;
 };
 
 export type Rabbitmq = {
@@ -144,6 +145,7 @@ export type Sqs = {
     MESSAGES_SET: boolean;
     MESSAGES_UPDATE: boolean;
     MESSAGES_UPSERT: boolean;
+    MESSAGES_CLASSIFIED: boolean;
     PRESENCE_UPDATE: boolean;
     QRCODE_UPDATED: boolean;
     REMOVE_INSTANCE: boolean;
@@ -223,6 +225,7 @@ export type EventsWebhook = {
   CALL: boolean;
   TYPEBOT_START: boolean;
   TYPEBOT_CHANGE_STATUS: boolean;
+  MESSAGES_CLASSIFIED: boolean;
   ERRORS: boolean;
   ERRORS_WEBHOOK: string;
 };
@@ -256,6 +259,7 @@ export type EventsPusher = {
   CALL: boolean;
   TYPEBOT_START: boolean;
   TYPEBOT_CHANGE_STATUS: boolean;
+  MESSAGES_CLASSIFIED: boolean;
 };
 
 export type ApiKey = { KEY: string };
@@ -334,6 +338,17 @@ export type Dify = { ENABLED: boolean };
 export type N8n = { ENABLED: boolean };
 export type Evoai = { ENABLED: boolean };
 export type Flowise = { ENABLED: boolean };
+export type Typesafe = {
+  ENABLED: boolean;
+  API_URL: string;
+  API_KEY: string;
+  MODEL: string;
+  INTENTS: string;
+  MIN_CONFIDENCE: number;
+  IGNORE_GROUPS: boolean;
+  APPLY_LABELS: boolean;
+  LABELS: string;
+};
 
 export type S3 = {
   ACCESS_KEY: string;
@@ -418,6 +433,7 @@ export interface Env {
   N8N: N8n;
   EVOAI: Evoai;
   FLOWISE: Flowise;
+  TYPESAFE: Typesafe;
   CACHE: CacheConf;
   S3?: S3;
   AUTHENTICATION: Auth;
@@ -537,6 +553,7 @@ export class ConfigService {
           CALL: process.env?.RABBITMQ_EVENTS_CALL === 'true',
           TYPEBOT_START: process.env?.RABBITMQ_EVENTS_TYPEBOT_START === 'true',
           TYPEBOT_CHANGE_STATUS: process.env?.RABBITMQ_EVENTS_TYPEBOT_CHANGE_STATUS === 'true',
+          MESSAGES_CLASSIFIED: process.env?.RABBITMQ_EVENTS_MESSAGES_CLASSIFIED === 'true',
         },
       },
       NATS: {
@@ -574,6 +591,7 @@ export class ConfigService {
           CALL: process.env?.NATS_EVENTS_CALL === 'true',
           TYPEBOT_START: process.env?.NATS_EVENTS_TYPEBOT_START === 'true',
           TYPEBOT_CHANGE_STATUS: process.env?.NATS_EVENTS_TYPEBOT_CHANGE_STATUS === 'true',
+          MESSAGES_CLASSIFIED: process.env?.NATS_EVENTS_MESSAGES_CLASSIFIED === 'true',
         },
       },
       SQS: {
@@ -613,6 +631,7 @@ export class ConfigService {
           REMOVE_INSTANCE: process.env?.SQS_GLOBAL_REMOVE_INSTANCE === 'true',
           SEND_MESSAGE: process.env?.SQS_GLOBAL_SEND_MESSAGE === 'true',
           TYPEBOT_CHANGE_STATUS: process.env?.SQS_GLOBAL_TYPEBOT_CHANGE_STATUS === 'true',
+          MESSAGES_CLASSIFIED: process.env?.SQS_GLOBAL_MESSAGES_CLASSIFIED === 'true',
           TYPEBOT_START: process.env?.SQS_GLOBAL_TYPEBOT_START === 'true',
         },
       },
@@ -657,6 +676,7 @@ export class ConfigService {
           CALL: process.env?.KAFKA_EVENTS_CALL === 'true',
           TYPEBOT_START: process.env?.KAFKA_EVENTS_TYPEBOT_START === 'true',
           TYPEBOT_CHANGE_STATUS: process.env?.KAFKA_EVENTS_TYPEBOT_CHANGE_STATUS === 'true',
+          MESSAGES_CLASSIFIED: process.env?.KAFKA_EVENTS_MESSAGES_CLASSIFIED === 'true',
         },
         SASL:
           process.env?.KAFKA_SASL_ENABLED === 'true'
@@ -722,6 +742,7 @@ export class ConfigService {
           CALL: process.env?.PUSHER_EVENTS_CALL === 'true',
           TYPEBOT_START: process.env?.PUSHER_EVENTS_TYPEBOT_START === 'true',
           TYPEBOT_CHANGE_STATUS: process.env?.PUSHER_EVENTS_TYPEBOT_CHANGE_STATUS === 'true',
+          MESSAGES_CLASSIFIED: process.env?.PUSHER_EVENTS_MESSAGES_CLASSIFIED === 'true',
         },
       },
       WA_BUSINESS: {
@@ -779,6 +800,7 @@ export class ConfigService {
           CALL: process.env?.WEBHOOK_EVENTS_CALL === 'true',
           TYPEBOT_START: process.env?.WEBHOOK_EVENTS_TYPEBOT_START === 'true',
           TYPEBOT_CHANGE_STATUS: process.env?.WEBHOOK_EVENTS_TYPEBOT_CHANGE_STATUS === 'true',
+          MESSAGES_CLASSIFIED: process.env?.WEBHOOK_EVENTS_MESSAGES_CLASSIFIED === 'true',
           ERRORS: process.env?.WEBHOOK_EVENTS_ERRORS === 'true',
           ERRORS_WEBHOOK: process.env?.WEBHOOK_EVENTS_ERRORS_WEBHOOK || '',
         },
@@ -838,6 +860,17 @@ export class ConfigService {
       },
       FLOWISE: {
         ENABLED: process.env?.FLOWISE_ENABLED === 'true',
+      },
+      TYPESAFE: {
+        ENABLED: process.env?.TYPESAFE_ENABLED === 'true',
+        API_URL: process.env?.TYPESAFE_API_URL || 'https://api.typesafe.ai',
+        API_KEY: process.env?.TYPESAFE_API_KEY || '',
+        MODEL: process.env?.TYPESAFE_MODEL || 'jev-latest',
+        INTENTS: process.env?.TYPESAFE_INTENTS || '',
+        MIN_CONFIDENCE: Number.parseFloat(process.env?.TYPESAFE_MIN_CONFIDENCE) || 0.6,
+        IGNORE_GROUPS: process.env?.TYPESAFE_IGNORE_GROUPS !== 'false',
+        APPLY_LABELS: process.env?.TYPESAFE_APPLY_LABELS === 'true',
+        LABELS: process.env?.TYPESAFE_LABELS || '',
       },
       CACHE: {
         REDIS: {
